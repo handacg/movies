@@ -1,0 +1,49 @@
+<div class="center jumbotron text-center">
+
+    <h1>📽️ MovieSearcher.com</h1><br>
+    <h3>All your favorite movies online !</h3>
+
+</div>
+
+<br>
+
+<div class="row">
+    
+    <div class="col-md-4 offset-md-4">
+      <h3>Chercher un film 🎬</h3>
+      <form action="/search" method="POST">
+         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+         <div class="form-group">
+           <input type="text" class="form-control" name="movie_name" placeholder="Nom du film">
+         </div>
+         <button type="submit" class="btn btn-primary">Chercher</button>
+      </form>
+    </div>
+
+</div>
+
+<br><br>
+
+<% if @movies == "empty"%>
+  <br>
+  <h4 class="text-center">😢 Yo la recherche n'a rien donné 🤯</h4>
+<%elsif @movies%>
+  <div class="row">
+    <% @movies.each do |movie_id, hash_results| %>
+      <div class="card col-lg-3" >
+        <div class="card-body">
+          <div style="diplay: flex">
+            <h5 class="card-title"> 
+              <strong>Titre : <%= hash_results[:name] %>  </strong>
+            </h5>
+          </div>
+          <h6 class="card-subtitle mb-2 text-muted"> <strong>Date de sortie</strong> : <%=hash_results[:release_date]%> </h6>
+          <p class="card-text" > <strong>Réalisateur</strong>: <%=hash_results[:director]%>  </p>
+          <div class="text-center">
+            <img src="https://image.tmdb.org/t/p/w200<%=hash_results[:url_poster]%>" alt="Movie poster: <%=hash_results[:name]%>">
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<%end%>
